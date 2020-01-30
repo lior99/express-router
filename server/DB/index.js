@@ -20,8 +20,9 @@ const dbHandler = {
         })
     },
 
-    insert: async playerName => {
+    insert: async ({ playerName }) => {
         try {
+            console.log('playerName', playerName);
             const instance = await dbHandler.connect();
             const id = instance.db("players").collection("players").insertOne({ "name": playerName });
             instance.close();
