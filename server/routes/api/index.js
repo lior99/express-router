@@ -11,13 +11,11 @@ router.get('/', (req, res) => {
 router.get('/player', async (req, res) => {
   try {
     const result = await dbClient.find({});
-    console.log('result in router', result);
     res.status(200).send(result);
   } catch (err) {
-    console.log('got error', err)
-    res.status(200).send(`Error: ${err.message}`)
+    console.log('got error', err);
+    res.status(200).send(`Error: ${err.message}`);
   }
-
 });
 
 router.post('/player', (req, res) => {
