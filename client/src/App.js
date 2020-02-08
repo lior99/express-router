@@ -9,14 +9,17 @@ function App() {
   useEffect(() => {
     fetch('http://192.168.33.10:8080/api/player')
       .then(response => response.json())
-      .then(players => setPlayers(players))
+      .then(players => {
+        console.log('players', players);
+        return setPlayers(players);
+      })
       .catch(err => {
         console.error(err);
       });
   }, []);
 
   return (
-    <div className='App'>
+    <div className="App">
       <Players players={players} />
     </div>
   );

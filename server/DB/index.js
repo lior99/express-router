@@ -37,6 +37,28 @@ const dbHandler = {
     }
   },
 
+  updateAvatar: async ({ name, dataUrl }) => {
+    try {
+      const instance = await dbHandler.connect();
+      const result = instance
+        .db('players')
+        .collection('players')
+        .updateOne(
+          { name },
+          {
+            $set: {
+              avatar: dataUrl
+            }
+          }
+        );
+
+      instance.close();
+      return result;
+    } catch (err) {
+      throw err;
+    }
+  },
+
   connect: () => {
     return new Promise((resolve, reject) => {
       mongoClient.connect(
