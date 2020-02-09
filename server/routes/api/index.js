@@ -21,12 +21,27 @@ router.get('/player', async (req, res) => {
 router.post('/player', (req, res) => {
   const { playerName } = req.body;
   try {
-    const id = dbClient.insert({ playerName });
+    const result = dbClient.insert({ playerName });
     res.status(200).json({
-      id
+      result
     });
   } catch (err) {
     res.status(200).send(`something went wrong: ${err.message}`);
+  }
+});
+
+router.put('/player/avatar', (req, res) => {
+  const { playerName, avatar } = req.body;
+
+  console.log({ playerName, avatar });
+
+  try {
+    const result = dbClient.updateAvatar({ name: playerName, dataUrl: avatar });
+    res.status(200).json({
+      result
+    });
+  } catch (err) {
+    res.status(200).send(`error in update avatar: ${err.message}`);
   }
 });
 
