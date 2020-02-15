@@ -1,21 +1,16 @@
-version: '2.1'
+version: '3'
 services:
   web:
     container_name: node-app
     build: .
     ports:
-      - 8080:8080
+      - '8080:8080'
+    volumes:
+      - .:/home/app
     links:
       - db
-    volumes:
-      - d:/projects/gitRepo/express-router:/express-router
-
+    environment:
+      MONGO_CONNECTION_STRING: mongodb://db:27017
   db:
-    container_name: app-db
     image: mongo:3-xenial
-    ports:
-      - 27017:27017
-    expose:
-      - 27017
-    volumes:
-      - .mongodb:/data/db
+    container_name: db

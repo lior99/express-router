@@ -1,5 +1,6 @@
 FROM node:lts-alpine3.9
-WORKDIR /express-router
+
+WORKDIR /home/app
 
 COPY package.json . 
 
