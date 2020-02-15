@@ -1,17 +1,21 @@
-version: '2'
+version: '2.1'
 services:
   web:
-    container_name: docker-node-app
+    container_name: node-app
     build: .
     ports:
       - 8080:8080
     links:
-      - mongo
+      - db
+    volumes:
+      - d:/projects/gitRepo/express-router:/express-router
 
-  mongo:
-    container_name: mongo
-    image: mongo
+  db:
+    container_name: app-db
+    image: mongo:3-xenial
     ports:
       - 27017:27017
+    expose:
+      - 27017
     volumes:
-      - ./data:/data/db
+      - .mongodb:/data/db

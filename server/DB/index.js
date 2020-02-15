@@ -1,19 +1,22 @@
 const mongoClient = require('mongodb').MongoClient;
 
 const dbHandler = {
-  mongoUrl: 'mongodb://mongo:27017/docker-node-app/players',
+  mongoUrl: process.env.MONGO_CONNECTION_STRING || 'mongodb://localhost:27017',
+  dbName: 'players',
+  collectionName: 'players',
 
   find: async query => {
     return new Promise(async (resolve, reject) => {
       try {
-        const instance = await dbHandler.connect();
-        const db = instance.db('players');
-        db.collection('players')
+        const db = await dbHandler.connect();
+        const client = db.db('players');
+        client
+          .collection('players')
           .find(query)
           .toArray((err, result) => {
             if (err) reject(err);
 
-            instance.close();
+            db.close();
             resolve(result);
           });
       } catch (err) {
@@ -25,12 +28,12 @@ const dbHandler = {
 
   insert: async ({ playerName }) => {
     try {
-      const instance = await dbHandler.connect();
-      const id = instance
+      const db = await dbHandler.connect();
+      const id = db
         .db('players')
         .collection('players')
         .insertOne({ name: playerName });
-      instance.close();
+      db.close();
       return id;
     } catch (err) {
       throw err;
@@ -39,8 +42,8 @@ const dbHandler = {
 
   updateAvatar: async ({ name, dataUrl }) => {
     try {
-      const instance = await dbHandler.connect();
-      const result = instance
+      const db = await dbHandler.connect();
+      const result = db
         .db('players')
         .collection('players')
         .updateOne(
@@ -52,7 +55,7 @@ const dbHandler = {
           }
         );
 
-      instance.close();
+      db.close();
       return result;
     } catch (err) {
       throw err;
@@ -60,11 +63,11 @@ const dbHandler = {
   },
 
   connect: () => {
-    return new Promise((resolve, reject) => {
-      mongoClient.connect(
-        dbHandler.mongoUrl,
+    return new Promise(async (resolve, reject) => {
+      const client = await mongoClient.connect(
+        `${dbHandler.mongoUrl}`,
         { useNewUrlParser: true },
-        (err, dbInstance) => {
+        (err, db) => {
           if (err) {
             console.log('got error while connecting to db', err);
             reject(err);
@@ -72,9 +75,21 @@ const dbHandler = {
           }
 
           console.log('successfully connected to db');
-          resolve(dbInstance);
+          resolve(db);
         }
       );
+    });
+  },
+
+  status: async () => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const db = await dbHandler.connect();
+        resolve('successfully connected to mongo db :)');
+        db.close();
+      } catch (err) {
+        reject(`unable to connect to mongo db -> ${err.message}`);
+      }
     });
   }
 };
