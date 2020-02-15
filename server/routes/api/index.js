@@ -45,4 +45,13 @@ router.put('/player/avatar', (req, res) => {
   }
 });
 
+router.get('/status', async (req, res) => {
+  try {
+    const statusResponse = await dbClient.status();
+    res.status(200).send(statusResponse);
+  } catch (err) {
+    res.send(err);
+  }
+});
+
 module.exports = router;

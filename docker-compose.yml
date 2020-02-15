@@ -1,17 +1,16 @@
-version: '2'
+version: '3'
 services:
   web:
-    container_name: docker-node-app
+    container_name: node-app
     build: .
     ports:
-      - 8080:8080
-    links:
-      - mongo
-
-  mongo:
-    container_name: mongo
-    image: mongo
-    ports:
-      - 27017:27017
+      - '8080:8080'
     volumes:
-      - ./data:/data/db
+      - .:/home/app
+    links:
+      - db
+    environment:
+      MONGO_CONNECTION_STRING: mongodb://db:27017
+  db:
+    image: mongo:3-xenial
+    container_name: db
