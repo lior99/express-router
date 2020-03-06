@@ -1,97 +1,40 @@
-const mongoClient = require('mongodb').MongoClient;
+const PlayerModel = require('./model/player');
 
 const dbHandler = {
-  mongoUrl: process.env.MONGO_CONNECTION_STRING || 'mongodb://localhost:27017',
-  dbName: 'players',
-  collectionName: 'players',
+  db: null,
+  init: () => {
+    if (!this.db) {
+      const mongoUrl =
+        process.env.MONGO_CONNECTION_STRING ||
+        'mongodb://localhost:27017/players';
+      const mongoose = require('mongoose');
+      mongoose.connect(mongoUrl, { useNewUrlParser: true });
+      this.db = mongoose.connection;
+      this.db.on('error', error => console.log('error', error));
+      this.db.once('open', () => console.log('successfully conneced to db'));
+    }
+  },
 
-  find: async query => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const db = await dbHandler.connect();
-        const client = db.db('players');
-        client
-          .collection('players')
-          .find(query)
-          .toArray((err, result) => {
-            if (err) reject(err);
-
-            db.close();
-            resolve(result);
-          });
-      } catch (err) {
-        console.log('err ->', err);
-        reject(err);
-      }
-    });
+  find: async () => {
+    try {
+      const result = await PlayerModel.find({});
+      return result;
+    } catch (err) {
+      console.log('err ->', err);
+      return err;
+    }
   },
 
   insert: async ({ playerName }) => {
     try {
-      const db = await dbHandler.connect();
-      const id = db
-        .db('players')
-        .collection('players')
-        .insertOne({ name: playerName });
-      db.close();
-      return id;
-    } catch (err) {
-      throw err;
-    }
-  },
-
-  updateAvatar: async ({ name, dataUrl }) => {
-    try {
-      const db = await dbHandler.connect();
-      const result = db
-        .db('players')
-        .collection('players')
-        .updateOne(
-          { name },
-          {
-            $set: {
-              avatar: dataUrl
-            }
-          }
-        );
-
-      db.close();
+      const newPlayer = new PlayerModel({ playerName });
+      const result = await newPlayer.save();
       return result;
     } catch (err) {
-      throw err;
+      return err;
     }
-  },
-
-  connect: () => {
-    return new Promise(async (resolve, reject) => {
-      const client = await mongoClient.connect(
-        `${dbHandler.mongoUrl}`,
-        { useNewUrlParser: true },
-        (err, db) => {
-          if (err) {
-            console.log('got error while connecting to db', err);
-            reject(err);
-            return;
-          }
-
-          console.log('successfully connected to db');
-          resolve(db);
-        }
-      );
-    });
-  },
-
-  status: async () => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const db = await dbHandler.connect();
-        resolve('successfully connected to mongo db :)');
-        db.close();
-      } catch (err) {
-        reject(`unable to connect to mongo db -> ${err.message}`);
-      }
-    });
   }
 };
 
+dbHandler.init();
 module.exports = dbHandler;
