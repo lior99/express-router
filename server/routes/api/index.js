@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const dbClient = require('../../DB/index');
+const dbHandler = require('../../DB/index');
 
 router.get('/', (req, res) => {
   res.json({
@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
 
 router.get('/player', async (req, res) => {
   try {
-    const result = await dbClient.find({});
+    const result = await dbHandler.find({});
     res.status(200).send(result);
   } catch (err) {
     console.log('got error', err);
@@ -18,10 +18,10 @@ router.get('/player', async (req, res) => {
   }
 });
 
-router.post('/player', (req, res) => {
+router.post('/player', async (req, res) => {
   const { playerName } = req.body;
   try {
-    const result = dbClient.insert({ playerName });
+    const result = await dbHandler.insert({ playerName });
     res.status(200).json({
       result
     });
@@ -32,11 +32,11 @@ router.post('/player', (req, res) => {
 
 router.put('/player/avatar', (req, res) => {
   const { playerName, avatar } = req.body;
-
-  console.log({ playerName, avatar });
-
   try {
-    const result = dbClient.updateAvatar({ name: playerName, dataUrl: avatar });
+    const result = dbHandler.updateAvatar({
+      name: playerName,
+      dataUrl: avatar
+    });
     res.status(200).json({
       result
     });
@@ -47,7 +47,7 @@ router.put('/player/avatar', (req, res) => {
 
 router.get('/status', async (req, res) => {
   try {
-    const statusResponse = await dbClient.status();
+    const statusResponse = await dbHandler.status();
     res.status(200).send(statusResponse);
   } catch (err) {
     res.send(err);
