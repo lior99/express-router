@@ -7,15 +7,18 @@ function App() {
   const [players, setPlayers] = useState([]);
 
   useEffect(() => {
-    fetch('http://192.168.33.10:8080/api/player')
-      .then(response => response.json())
-      .then(players => {
+    const fetchPlayers = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/api/player');
+        const players = await response.json();
         console.log('players', players);
         return setPlayers(players);
-      })
-      .catch(err => {
+      } catch (err) {
         console.error(err);
-      });
+      }
+    };
+
+    fetchPlayers();
   }, []);
 
   return (

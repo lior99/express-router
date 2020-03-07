@@ -4,11 +4,14 @@ import Player from './Player';
 function Players({ players }) {
   return (
     <div className="players-container">
-      {players &&
-        players.length > 0 &&
-        players.map((player, index) => (
-          <Player key={`player_${index}`} data={player} />
-        ))}
+      <div className="header">Players</div>
+      <div className="players">
+        {players &&
+          players.length &&
+          players.map((player, index) => (
+            <Player key={`player_${index}`} data={player} />
+          ))}
+      </div>
     </div>
   );
 }

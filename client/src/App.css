@@ -1,38 +1,63 @@
-.App {
-  text-align: center;
+.players-container {
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.players-container .header {
+  height: 120px;
+  width: 100vw;
+  background: #42728d;
+  color: #fff;
+  font-size: 5em;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.players-container .players {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  position: relative;
+  top: 150px;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;
+  flex-direction: row;
 }
 
-.App-link {
-  color: #61dafb;
+.player {
+  margin: 20px 30px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.player .empty-avatar {
+  height: 200px;
+  width: 150px;
+  border: solid 1px silver;
+}
+
+.empty-avatar {
+  height: 200px;
+  width: 150px;
+  border: solid 1px silver;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 55px;
+  color: #7a7a7a;
+  cursor: pointer;
+  position: relative;
+}
+
+.upload-container {
+  border: solid 5px red;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.upload-container input[type='file'] {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
