@@ -5,6 +5,7 @@ import UploadAvatar from './UploadAvatar';
 
 function Player({ data }) {
   const { playerName, avatar } = data;
+  console.log('data', data);
 
   return (
     <div className="player">

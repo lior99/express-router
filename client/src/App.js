@@ -1,29 +1,43 @@
 import React, { useEffect, useState } from 'react';
-import logo from './logo.svg';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import './App.css';
 import Players from './components/Players';
+import AddPlayer from './components/AddPlayer';
+import Header from './components/Header/Header';
+
+const CustomRouter = () => (
+  <div>
+    <Header />
+    <Router>
+      <div>
+        <nav>
+          <ul>
+            <li>
+              <Link to="/addplayer">Add player</Link>
+            </li>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+          </ul>
+        </nav>
+      </div>
+
+      <Switch>
+        <Route path="/addplayer" strict>
+          <AddPlayer />
+        </Route>
+        <Route path="/" strict>
+          <Players />
+        </Route>
+      </Switch>
+    </Router>
+  </div>
+);
 
 function App() {
-  const [players, setPlayers] = useState([]);
-
-  useEffect(() => {
-    const fetchPlayers = async () => {
-      try {
-        const response = await fetch('http://localhost:8080/api/player');
-        const players = await response.json();
-        console.log('players', players);
-        return setPlayers(players);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-    fetchPlayers();
-  }, []);
-
   return (
     <div className="App">
-      <Players players={players} />
+      <CustomRouter />
     </div>
   );
 }
