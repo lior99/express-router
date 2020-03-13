@@ -9,19 +9,6 @@ const CustomRouter = () => (
   <div>
     <Header />
     <Router>
-      <div>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/addplayer">Add player</Link>
-            </li>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-          </ul>
-        </nav>
-      </div>
-
       <Switch>
         <Route path="/addplayer" strict>
           <AddPlayer />

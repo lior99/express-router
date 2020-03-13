@@ -69,3 +69,16 @@
   text-decoration: none;
   color: #000;
 }
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: solid 1px silver;
+  margin: 10px;
+}
+
+.form-container .form-row {
+  margin: 10px 0;
+}

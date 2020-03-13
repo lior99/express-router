@@ -69,7 +69,6 @@ const Header = () => {
         <Typography variant="h6" className={classes.title}>
           Players
         </Typography>
-        {/* <Button color="inherit">Login</Button> */}
       </Toolbar>
     </AppBar>
   );
