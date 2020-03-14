@@ -1,6 +1,14 @@
 .players-container {
 }
 
+.players {
+  display: flex;
+  flex: 1 1 auto;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
 .players-container .header {
   width: 100vw;
   background: #42728d;
@@ -24,23 +32,23 @@
   margin: 20px 30px;
 }
 
+.player .name {
+  margin-bottom: 5px;
+}
+
 .player .empty-avatar {
-  height: 200px;
-  width: 150px;
+  height: 350px;
+  width: 250px;
   border: solid 1px silver;
 }
 
 .empty-avatar {
-  height: 200px;
-  width: 150px;
+  height: 10em;
   border: solid 1px silver;
+  width: 13em;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 55px;
-  color: #7a7a7a;
-  cursor: pointer;
-  position: relative;
 }
 
 .upload-container {
@@ -63,6 +71,12 @@
 
 .no-data-available {
   font-size: 4em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  position: absolute;
 }
 
 .menu-item {

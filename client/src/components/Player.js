@@ -12,10 +12,7 @@ function Player({ data }) {
       <div className="name">{playerName}</div>
       <div>
         {avatar === 'N/A' ? (
-          <div className="empty-avatar">
-            <FontAwesomeIcon icon={faPlus} />
-            <UploadAvatar />
-          </div>
+          <span className="empty-avatar">N/A</span>
         ) : (
           <img src={avatar} />
         )}
